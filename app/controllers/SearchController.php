@@ -34,17 +34,24 @@ class SearchController extends BaseController {
 		else{
 
 			$properties = Property::where('property_isActive', '=', '1')
-								  ->where('property_isDeleted', '=', '0')
-								  ->where('property_name', 'LIKE', '%'.$searchterms.'%')
-								  ->orWhere('property_description', 'LIKE', '%'.$searchterms.'%')
-								  ->orderBy('property_name', 'asc')->get();
-
+		        ->where( function ( $properties ) use ($searchterms)
+		    	{
+		        	$properties->where( 'property_name', 'LIKE', '%'.$searchterms.'%' )
+		            		   ->orWhere( 'property_description', 'LIKE', '%'.$searchterms.'%' );
+		    	})		    
+		        ->where('property_isDeleted', '=', '0')
+		        ->orderBy('property_name', 'asc')
+		        ->get();
 
 			$pages = Page::where('page_isPublished', '=', '1')
-							      ->where('page_isDeleted', '=', '0')
-								  ->where('page_title', 'LIKE', '%'.$searchterms.'%')
-								  ->orWhere('page_content', 'LIKE', '%'.$searchterms.'%')
-								  ->orderBy('page_title', 'asc')->get();
+		        ->where( function ( $pages ) use ($searchterms)
+		    	{
+		        	$pages->where( 'page_title', 'LIKE', '%'.$searchterms.'%' )
+		            	  ->orWhere( 'page_content', 'LIKE', '%'.$searchterms.'%' );
+		    	})		    
+		        ->where('page_isDeleted', '=', '0')
+		        ->orderBy('page_title', 'asc')
+		        ->get();
 
 			$this->layout->content = View::make('frontend.search.search-results')
 				->with('searchterms', $searchterms)
