@@ -1,0 +1,51 @@
+<!-- IMS Property Type Details Page -->
+
+@section('title', 'Best Property Malta | '.e($property_type->property_type_name))
+
+   <h3 class="form-signup-heading">{{ e($property_type->property_type_name) }}</h3>
+
+   <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="pull-left">
+                <div class="btn-toolbar">
+                    <a href="{{ URL::route('property_types') }}"
+                       class="btn btn-primary">
+                        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Back
+                    </a>
+
+                     <span>
+                        {{link_to_route('edit_property_type', 'Edit', array($property_type->property_type_id), array('class'=>'btn btn-primary'))}}
+                        {{link_to_route('confirm_property_type_delete', 'Delete', array($property_type->property_type_id), array('class'=>'btn btn-danger'))}}
+                     </span>
+                     {{ Form::token() }}
+                     {{ Form::hidden('property_type_id', $property_type->property_type_id) }}
+                        
+                     {{ Form::close() }}
+                     
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td><span class="view-data">{{ $property_type->property_type_name }}</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Description</strong></td>
+                    <td><span class="view-data">{{ $property_type->property_type_description }}</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Date Created</strong></td>
+                    <td><span class="view-data">{{ date_format(new DateTime($property_type->created_at), 'd/m/Y H:m:s')  }}</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Date Updated</strong></td>
+                    <td><span class="view-data">{{ date_format(new DateTime($property_type->updated_at), 'd/m/Y H:m:s') }}</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
